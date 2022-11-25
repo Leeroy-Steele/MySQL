@@ -3,138 +3,93 @@ const sql = require("../index")
 
 
 let getAllStudents = async (res)=>{
-    console.log("db services here")
+    console.log("db services all students here")
 
     return new Promise((resolve, reject) => {
         let sqlQuery = `SELECT * FROM students`;
         
         sql.query(sqlQuery, (err, result, field) => {
             if(err) return reject(err);
-            resolve(Object.values(JSON.parse(JSON.stringify(result))));
+            resolve(Object.values(result));
         });
     });
- 
-    
 }
 
-module.exports = {getAllStudents}
+let getStudentByID = async (req,res)=>{
+    console.log("db services student by id here")
 
+    let studentID = req.params.studentID
+    // console.log(studentID)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// let getOneDataEntry = async (req,res,name)=>{
-//     console.log("dbMiddleware here")
-
-//     const student = await studentmodel.findOne({ name : name }).exec();
-
-//     try {
+    return new Promise((resolve, reject) => {
+        let sqlQuery = `SELECT * FROM students where user_id=${studentID}`;
         
-//         let upperCaseName = student.name.toUpperCase()
-//         student.name = upperCaseName
+        sql.query(sqlQuery, (err, result, field) => {
+            if(err) return reject(err);
+            
+            resolve(Object.values(result));
+        });
+    });
+}
+
+let updateByID = async (req,res)=>{
+    console.log("db services updateByID here")
+
+    let studentID = req.query.id
+    let updatedName = req.query.newName
+    console.log(studentID)
+    console.log(updatedName)
+
+    return new Promise((resolve, reject) => {
+        let sqlQuery = `UPDATE students SET name='${updatedName}' where user_id =${studentID}`;
         
-//         res.send(student);
+        sql.query(sqlQuery, (err, result, field) => {
+            if(err) return reject(err);
+            
+            resolve(Object.values(result));
+        });
+    });
+}
+
+let deleteByID = async (req,res)=>{
+    console.log("db services deleteByID here")
+
+    let studentID = req.query.id
+
+    console.log(studentID)
+
+    return new Promise((resolve, reject) => {
+        let sqlQuery = `DELETE FROM students WHERE user_id="${studentID}"`;
         
-//     } catch (error) {
-//         res.status(500).send(error);
-//         console.log("nope")
-//     }
-    
-// }
+        sql.query(sqlQuery, (err, result, field) => {
+            if(err) return reject(err);
+            
+            resolve(Object.values(result));
+        });
+    });
+}
 
-// let changeOneEntryName = async(req,res)=>{
-//     console.log("dbMiddleware here")
-//     let entryName = req.params.entryName
-//     let updatedName = req.params.updatedName
+let newEntry = async (req,res)=>{
+    console.log("db services newEntry here")
 
-//     console.log(entryName,updatedName)
+    let user_id = req.body.user_id
+    let name = req.body.name
+    let email = req.body.email
+    let city = req.body.city
+    let phone = req.body.phone
+    let postcode = req.body.postcode
 
-//     const query = { name: entryName };
+    console.log(user_id)
+    console.log(name)
 
-//     try {
-//         await studentmodel.findOneAndUpdate(query, { name: updatedName })
-//         res.send(updatedName);
+    return new Promise((resolve, reject) => {
+        let sqlQuery = `INSERT INTO students VALUES(${user_id},"${name}","${email}","${city}","${phone}" ,"${postcode}")`;
         
-//     } catch (error) {
-//         res.status(500).send(error);
-//         console.log("nope")
-//     }
-    
-// }
-
-
-// let deleteEntry = async(req,res)=>{
-//     console.log("delete dbMiddleware here")
-//     let entryName = req.params.entryName
-
-//     console.log(entryName)
-
-//     try {
-//         console.log("try block here")
-//         await studentmodel.deleteOne({ name: entryName })
-//         console.log('Deleted')
-//         res.send(entryName);
-        
-//     } catch (error) {
-//         res.status(500).send(error);
-//         console.log("catch block here")
-//     }
-    
-// }
-
-// let createNewEntry = async (req,res)=>{
-//     console.log("create new entry middleware function here")
-
-//     let _id = req.body['_id']
-//     let name = req.body['name']
-//     let email = req.body['email']
-//     let city = req.body['city']
-//     let phone = req.body['phone']
-//     let postcode = req.body['postcode']
-
-//     try {
-//         await studentmodel.create({ 
-//             "_id": _id,
-//             "name": name,
-//             "email": email,
-//             "city":city,
-//             "phone":phone,
-//             "postcode":postcode
-//         })
-//         res.send({"entry":"created"});
-        
-//     } catch (error) {
-//         res.status(500).send(error);
-//         console.log("nope")
-//     }
-
-// }
-
-// module.exports = {getDataEntry,getOneDataEntry,changeOneEntryName,createNewEntry,deleteEntry}
+        sql.query(sqlQuery, (err, result, field) => {
+            if(err) return reject(err);
+            
+            resolve(Object.values(result));
+        });
+    });
+}
+module.exports = {getAllStudents,getStudentByID,updateByID,deleteByID,newEntry}

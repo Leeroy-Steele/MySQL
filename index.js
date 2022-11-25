@@ -1,10 +1,6 @@
 
-let express = require("express")
+let express = require("express")    // npm install expressjs
 let application = express()
-
-///////// add mySQL into project (npm install mysql) 
-const mysql = require('mysql');
-const dbConfig = require('./config/db.config.js');
 
 let port1 = 3000
 
@@ -13,9 +9,10 @@ application.use(cors())
 
 application.use(express.json());// to access body from postman
 
-
 //////// MySQL starts here
 
+const mysql = require('mysql');// add mySQL into project (npm install mysql) 
+const dbConfig = require('./config/db.config.js');
 
 var connection = mysql.createPool({
   host: dbConfig.HOST,
@@ -25,7 +22,6 @@ var connection = mysql.createPool({
 });
 
 module.exports = connection;
-
 
 /////// routing / webserver starts here
 
