@@ -2,7 +2,7 @@
 let express = require("express")
 let application = express()
 
-
+///////// add mySQL into project (npm install mysql) 
 const mysql = require('mysql');
 const dbConfig = require('./config/db.config.js');
 
